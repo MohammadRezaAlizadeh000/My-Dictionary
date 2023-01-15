@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/allWordsFragment">
 
     <fragment
         android:id="@+id/allWordsFragment"
         android:name="com.mra.mydictionary.view.allWords.AllWordsFragment"
+        tools:layout="@layout/all_words_list_layout"
         android:label="AllWordsFragment" >
         <action
             android:id="@+id/action_allWordsFragment_to_insertNewWordFragment"
             app:destination="@id/insertNewWordFragment" />
+        <action
+            android:id="@+id/action_allWordsFragment_to_filterBottomSheet"
+            app:destination="@id/filterBottomSheet" />
     </fragment>
     <fragment
         android:id="@+id/insertNewWordFragment"
         android:name="com.mra.mydictionary.view.newWord.InsertNewWordFragment"
+        tools:layout="@layout/insert_new_word_fragment"
         android:label="InsertNewWordFragment" />
+
+    <dialog
+        android:id="@+id/filterBottomSheet"
+        tools:layout="@layout/filter_bottom_sheet"
+        android:name="com.mra.mydictionary.view.allWords.FilterBottomSheet"
+        android:label="FilterBottomSheet" />
+
 </navigation>

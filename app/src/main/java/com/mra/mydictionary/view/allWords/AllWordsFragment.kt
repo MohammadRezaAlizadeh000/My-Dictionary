@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -44,7 +45,15 @@ class AllWordsFragment : BaseFragment<AllWordsFragmentBinding>(AllWordsFragmentB
 
     private fun handleWordsListScreen(wordList: List<WordEntity>) {
         val wordsListViewBinding = AllWordsListLayoutBinding.inflate(LayoutInflater.from(context))
-        binding?.root?.addView(wordsListViewBinding.root)
+        binding?.root?.apply {
+            removeAllViews()
+            addView(wordsListViewBinding.root)
+        }
+
+        wordsListViewBinding.selectedFilter.setOnClickListener {
+            openFilterMenu()
+        }
+
 
         wordsListViewBinding.createNewWordBtn.setOnClickListener {
             findNavController().navigate(R.id.action_allWordsFragment_to_insertNewWordFragment)
@@ -73,4 +82,8 @@ class AllWordsFragment : BaseFragment<AllWordsFragmentBinding>(AllWordsFragmentB
         binding?.root?.addView(emptyViewBinding.root)
     }
 
+
+    private fun openFilterMenu() {
+        findNavController().navigate(R.id.action_allWordsFragment_to_filterBottomSheet)
+    }
 }

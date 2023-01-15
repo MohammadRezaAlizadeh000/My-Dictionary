@@ -14,7 +14,7 @@ class GetAllWordsUseCaseImpl @Inject constructor(
 ): GetAllWordsUseCase {
 
     override suspend fun invoke(startPoint: Int): Flow<List<WordEntity>> {
-        return repository.getAllWords(startPoint)
+        return repository.getAllNewestWords(startPoint)
     }
 
 }
