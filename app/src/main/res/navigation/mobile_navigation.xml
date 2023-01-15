@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/allWordsFragment">
+
+    <fragment
+        android:id="@+id/allWordsFragment"
+        android:name="com.mra.mydictionary.view.allWords.AllWordsFragment"
+        android:label="AllWordsFragment" >
+        <action
+            android:id="@+id/action_allWordsFragment_to_insertNewWordFragment"
+            app:destination="@id/insertNewWordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/insertNewWordFragment"
+        android:name="com.mra.mydictionary.view.newWord.InsertNewWordFragment"
+        android:label="InsertNewWordFragment" />
+</navigation>
