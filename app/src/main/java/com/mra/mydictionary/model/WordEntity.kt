@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class WordEntity(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val word: String,
-    val description: String? = null
+    val description: String? = null,
+    val creationDate: Long
 )

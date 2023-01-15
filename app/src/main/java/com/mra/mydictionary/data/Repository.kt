@@ -5,9 +5,12 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface Repository {
-    suspend fun insertNewWord(wordEntity: WordEntity): Flow<Long>
 
-    suspend fun getAllWords(startPoint: Int): Flow<List<WordEntity>>
+    suspend fun insertNewWord(wordEntity: WordEntity): Flow<Long>
+    suspend fun getAllNewestWords(startPoint: Int): Flow<List<WordEntity>>
+    suspend fun getAllOldestWords(startPoint: Int): Flow<List<WordEntity>>
+    suspend fun getAllWordsAToZ(startPoint: Int): Flow<List<WordEntity>>
+    suspend fun getAllWordsZToA(startPoint: Int): Flow<List<WordEntity>>
 }
 
 class RepositoryImpl @Inject constructor(
@@ -18,8 +21,20 @@ class RepositoryImpl @Inject constructor(
         return localDataSource.insertNewWord(wordEntity)
     }
 
-    override suspend fun getAllWords(startPoint: Int): Flow<List<WordEntity>> {
-        return localDataSource.getAllWords(startPoint)
+    override suspend fun getAllNewestWords(startPoint: Int): Flow<List<WordEntity>> {
+        return localDataSource.getAllNewestWords(startPoint)
+    }
+
+    override suspend fun getAllOldestWords(startPoint: Int): Flow<List<WordEntity>> {
+        return localDataSource.getAllOldestWords(startPoint)
+    }
+
+    override suspend fun getAllWordsAToZ(startPoint: Int): Flow<List<WordEntity>> {
+        return localDataSource.getAllWordsAToZ(startPoint)
+    }
+
+    override suspend fun getAllWordsZToA(startPoint: Int): Flow<List<WordEntity>> {
+        return localDataSource.getAllWordsZToA(startPoint)
     }
 
 }

@@ -46,6 +46,11 @@ class AllWordsFragment : BaseFragment<AllWordsFragmentBinding>(AllWordsFragmentB
         val wordsListViewBinding = AllWordsListLayoutBinding.inflate(LayoutInflater.from(context))
         binding?.root?.addView(wordsListViewBinding.root)
 
+        wordsListViewBinding.createNewWordBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_allWordsFragment_to_insertNewWordFragment)
+        }
+
+
         wordsRecyclerViewAdapter = WordsRecyclerViewAdapter()
 
         wordsListViewBinding.allWordsRecyclerView.apply {

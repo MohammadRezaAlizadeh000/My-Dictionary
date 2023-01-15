@@ -9,9 +9,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/wordLayout"
 
-        android:layout_marginHorizontal="12dp"
-        android:layout_margin="12dp"
-        style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+        android:layout_marginHorizontal="@dimen/padding12"
+        android:layout_margin="@dimen/padding12"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
 
         app:layout_constraintTop_toTopOf="parent">
 
@@ -20,7 +21,7 @@
             android:layout_height="match_parent"
             android:id="@+id/word"
 
-            android:hint="Enter your word"/>
+            android:hint="@string/wordFieldHint"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -30,9 +31,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/descriptionLayout"
 
-        android:layout_marginHorizontal="12dp"
-        android:layout_margin="12dp"
-        style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+        android:layout_marginHorizontal="@dimen/padding12"
+        android:layout_margin="@dimen/padding12"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+        android:hint="@string/wordDescriptionFieldHint"
 
         app:layout_constraintTop_toBottomOf="@id/wordLayout">
 
@@ -42,21 +45,20 @@
             android:id="@+id/description"
 
             android:minLines="5"
-            android:gravity="top"
-
-            android:hint="Enter your word"/>
+            android:gravity="top" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/insertWordBtn"
 
-        android:text="Insert Word"
+        android:text="@string/insertWordBtnText"
+        android:textAllCaps="false"
 
-        android:layout_margin="12dp"
+        android:layout_margin="@dimen/padding12"
 
         app:layout_constraintBottom_toBottomOf="parent"/>
 

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">My Dictionary</string>
+    <string name="emptyWordsListMessage">There is no words yeet</string>
+    <string name="createFirstWordBtnText">Create your first word</string>
+    <string name="addNewWordBtnText">Add new word</string>
+    <string name="insertWordBtnText">Insert Word</string>
+    <string name="wordFieldHint">Enter your word</string>
+    <string name="wordDescriptionFieldHint">Enter your word description</string>
+    <string name="emptyWordFieldErrorMessage">You should fill Word Input</string>
+    <string name="successfulWordInsertionMessage">Word inserted successfully</string>
 </resources>

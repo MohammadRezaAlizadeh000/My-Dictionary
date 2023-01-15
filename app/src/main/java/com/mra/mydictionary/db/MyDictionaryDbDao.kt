@@ -13,7 +13,15 @@ interface MyDictionaryDbDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNewWord(newWord: WordEntity?): Long
 
-    @Query("SELECT * FROM wordentity LIMIT :startPoint, 20")
-    fun getWords(startPoint: Int): Flow<List<WordEntity>>
+    @Query("SELECT * FROM wordentity ORDER BY creationDate DESC LIMIT :startPoint, 20")
+    fun getWordsNewest(startPoint: Int): Flow<List<WordEntity>>
 
+    @Query("SELECT * FROM wordentity ORDER BY creationDate LIMIT :startPoint, 20")
+    fun getWordsOldest(startPoint: Int): Flow<List<WordEntity>>
+
+    @Query("SELECT * FROM wordentity ORDER BY word LIMIT :startPoint, 20")
+    fun getWordsAToZ(startPoint: Int): Flow<List<WordEntity>>
+
+    @Query("SELECT * FROM wordentity ORDER BY word DESC LIMIT :startPoint, 20")
+    fun getWordsZToA(startPoint: Int): Flow<List<WordEntity>>
 }

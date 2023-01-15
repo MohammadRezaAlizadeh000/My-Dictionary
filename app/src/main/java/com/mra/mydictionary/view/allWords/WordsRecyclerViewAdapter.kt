@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.mra.mydictionary.R
 import com.mra.mydictionary.databinding.AllWordsRecyclerviewRowBinding
 import com.mra.mydictionary.model.WordEntity
+import com.mra.mydictionary.utils.backgroundBuilder
 
 class WordsRecyclerViewAdapter : RecyclerView.Adapter<AllWordsRecyclerViewHolder>() {
 
@@ -19,7 +21,7 @@ class WordsRecyclerViewAdapter : RecyclerView.Adapter<AllWordsRecyclerViewHolder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllWordsRecyclerViewHolder {
         return AllWordsRecyclerViewHolder(
-            AllWordsRecyclerviewRowBinding.inflate(LayoutInflater.from(parent.context))
+            AllWordsRecyclerviewRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

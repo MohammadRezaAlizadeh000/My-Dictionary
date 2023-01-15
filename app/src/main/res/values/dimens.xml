@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="corner15">15dp</dimen>
+    <dimen name="corner10">10dp</dimen>
+
+    <dimen name="padding1">1dp</dimen>
+    <dimen name="padding8">8dp</dimen>
+    <dimen name="padding12">12dp</dimen>
+
+    <dimen name="textSize16">16sp</dimen>
+
+
+    <dimen name="elevation3">3dp</dimen>
+</resources>
