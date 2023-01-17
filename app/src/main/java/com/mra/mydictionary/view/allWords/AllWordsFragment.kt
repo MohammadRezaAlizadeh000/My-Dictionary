@@ -14,6 +14,7 @@ import com.mra.mydictionary.databinding.AllWordsEmptyLayoutBinding
 import com.mra.mydictionary.databinding.AllWordsFragmentBinding
 import com.mra.mydictionary.databinding.AllWordsListLayoutBinding
 import com.mra.mydictionary.model.WordEntity
+import com.mra.mydictionary.utils.Constance.FILTER_KEY
 import com.mra.mydictionary.utils.launchFlowWhenResumed
 import com.mra.mydictionary.view.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,12 +24,19 @@ class AllWordsFragment : BaseFragment<AllWordsFragmentBinding>(AllWordsFragmentB
 
     private val viewModel: AllWordsViewModel by viewModels()
     private var startPoint = 0
+    private var filterType = FilterType.NEWEST
     private var wordsRecyclerViewAdapter: WordsRecyclerViewAdapter? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getAllWords(startPoint)
+        findNavController().currentBackStackEntry?.savedStateHandle
+            ?.getLiveData<String>(FILTER_KEY)?.observe(viewLifecycleOwner) { result ->
+                filterType = toFilterType(result)
+                viewModel.getAllWords(startPoint, filterType)
+        }
+
+        viewModel.getAllWords(startPoint, filterType)
 
         launchFlowWhenResumed(viewModel.allWordsStateFlow) { response ->
 
@@ -50,8 +58,11 @@ class AllWordsFragment : BaseFragment<AllWordsFragmentBinding>(AllWordsFragmentB
             addView(wordsListViewBinding.root)
         }
 
-        wordsListViewBinding.selectedFilter.setOnClickListener {
-            openFilterMenu()
+        wordsListViewBinding.selectedFilter.apply {
+            text = filterType.name
+            setOnClickListener {
+                openFilterMenu()
+            }
         }
 
 

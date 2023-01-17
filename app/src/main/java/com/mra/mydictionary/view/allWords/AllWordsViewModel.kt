@@ -29,9 +29,9 @@ class AllWordsViewModel @Inject constructor(
     private val _allWordsStateFlow: MutableStateFlow<AllWordsState> = MutableStateFlow(AllWordsState())
     val allWordsStateFlow: StateFlow<AllWordsState> = _allWordsStateFlow
 
-    fun getAllWords(startPoint: Int) {
+    fun getAllWords(startPoint: Int, filterType: FilterType) {
         job = viewModelScope.launch {
-            getAllWordsUseCase(startPoint).collect { response ->
+            getAllWordsUseCase(startPoint, filterType).collect { response ->
                 if (response.isEmpty())
                     _allWordsStateFlow.value = AllWordsState(errorMessage = "There is no any words yeet")
                 else

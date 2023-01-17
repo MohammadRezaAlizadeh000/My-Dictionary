@@ -6,7 +6,8 @@
 
     <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/filterRadioGroup">
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:layout_width="wrap_content"
@@ -17,20 +18,20 @@
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="oldest"
+            android:text="Oldest"
             android:id="@+id/oldest"/>
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A - Z"
-            android:id="@+id/AToZ"/>
+            android:text="A_To_Z"
+            android:id="@+id/A_To_Z"/>
 
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Z - A"
-            android:id="@+id/ZtoA"/>
+            android:text="Z_to_A"
+            android:id="@+id/Z_to_A"/>
 
     </RadioGroup>
 
