@@ -17,7 +17,7 @@
             android:id="@+id/action_allWordsFragment_to_filterBottomSheet"
             app:destination="@id/filterBottomSheet" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/insertNewWordFragment"
         android:name="com.mra.mydictionary.view.newWord.InsertNewWordFragment"
         tools:layout="@layout/insert_new_word_fragment"

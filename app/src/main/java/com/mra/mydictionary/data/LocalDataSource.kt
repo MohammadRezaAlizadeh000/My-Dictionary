@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 interface LocalDataSource {
+    suspend fun getWordsNumber(): Int
     suspend fun insertNewWord(wordEntity: WordEntity): Flow<Long>
-
     suspend fun getAllNewestWords(startPoint: Int): Flow<List<WordEntity>>
     suspend fun getAllOldestWords(startPoint: Int): Flow<List<WordEntity>>
     suspend fun getAllWordsAToZ(startPoint: Int): Flow<List<WordEntity>>
@@ -18,6 +18,10 @@ interface LocalDataSource {
 class LocalDataSourceImpl @Inject constructor(
     private val dbDao: MyDictionaryDbDao
 ) : LocalDataSource {
+
+    override suspend fun getWordsNumber(): Int {
+        return dbDao.dictionaryWordNumber()
+    }
 
     override suspend fun insertNewWord(wordEntity: WordEntity): Flow<Long> {
         return flow { emit(dbDao.insertNewWord(wordEntity)) }

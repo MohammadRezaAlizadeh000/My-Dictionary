@@ -6,6 +6,7 @@ import javax.inject.Inject
 
 interface Repository {
 
+    suspend fun getWordsNumber(): Int
     suspend fun insertNewWord(wordEntity: WordEntity): Flow<Long>
     suspend fun getAllNewestWords(startPoint: Int): Flow<List<WordEntity>>
     suspend fun getAllOldestWords(startPoint: Int): Flow<List<WordEntity>>
@@ -16,6 +17,9 @@ interface Repository {
 class RepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource
 ): Repository {
+    override suspend fun getWordsNumber(): Int {
+        return localDataSource.getWordsNumber()
+    }
 
     override suspend fun insertNewWord(wordEntity: WordEntity): Flow<Long> {
         return localDataSource.insertNewWord(wordEntity)

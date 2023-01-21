@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mra.mydictionary.R
@@ -17,26 +18,26 @@ import com.mra.mydictionary.model.WordEntity
 import com.mra.mydictionary.utils.Constance.FILTER_KEY
 import com.mra.mydictionary.utils.launchFlowWhenResumed
 import com.mra.mydictionary.view.BaseFragment
+import com.mra.mydictionary.view.allWords.screen.AllWordsListView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AllWordsFragment : BaseFragment<AllWordsFragmentBinding>(AllWordsFragmentBinding::inflate) {
 
     private val viewModel: AllWordsViewModel by viewModels()
-    private var startPoint = 0
     private var filterType = FilterType.NEWEST
-    private var wordsRecyclerViewAdapter: WordsRecyclerViewAdapter? = null
+    private var allWordsListView: AllWordsListView? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         findNavController().currentBackStackEntry?.savedStateHandle
-            ?.getLiveData<String>(FILTER_KEY)?.observe(viewLifecycleOwner) { result ->
-                filterType = toFilterType(result)
-                viewModel.getAllWords(startPoint, filterType)
-        }
+            ?.getLiveData<String>(FILTER_KEY)?.observe(viewLifecycleOwner) { onFilterChanged(it) }
 
-        viewModel.getAllWords(startPoint, filterType)
+        viewModel.getAllWords(filterType)
 
         launchFlowWhenResumed(viewModel.allWordsStateFlow) { response ->
 
@@ -52,33 +53,43 @@ class AllWordsFragment : BaseFragment<AllWordsFragmentBinding>(AllWordsFragmentB
     }
 
     private fun handleWordsListScreen(wordList: List<WordEntity>) {
-        val wordsListViewBinding = AllWordsListLayoutBinding.inflate(LayoutInflater.from(context))
-        binding?.root?.apply {
-            removeAllViews()
-            addView(wordsListViewBinding.root)
+        context?.let { _context ->
+            if (null == allWordsListView) {
+                allWordsListView = AllWordsListView(
+                    _context,
+                    recyclerViewPosition = { newPosition ->
+                        viewModel.recyclerViewPosition = newPosition ?: viewModel.recyclerViewPosition
+                        viewModel.recyclerViewPosition
+                    },
+                    createNewWordClickListener = {
+                        findNavController().navigate(R.id.action_allWordsFragment_to_insertNewWordFragment)
+                    },
+                    openFilterMenuClickListener = {
+                        findNavController().navigate(R.id.action_allWordsFragment_to_filterBottomSheet)
+                        filterType
+                    },
+                    loadMore = {
+                        if (!viewModel.isLoadMore) {
+                            viewModel.startPoint += 20
+                            viewModel.loadMoreWords(filterType)
+                            viewModel.isLoadMore = it
+                        }
+                    }
+                )
+            }
         }
 
-        wordsListViewBinding.selectedFilter.apply {
-            text = filterType.name
-            setOnClickListener {
-                openFilterMenu()
+        allWordsListView?.setFilterTitle(filterType)
+
+        binding?.root?.apply {
+            removeAllViews()
+            addView(allWordsListView)
+            allWordsListView?.setData(wordList, viewModel.isLoadMore) {
+                viewModel.isLoadMore = it
             }
         }
 
 
-        wordsListViewBinding.createNewWordBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_allWordsFragment_to_insertNewWordFragment)
-        }
-
-
-        wordsRecyclerViewAdapter = WordsRecyclerViewAdapter()
-
-        wordsListViewBinding.allWordsRecyclerView.apply {
-            adapter = wordsRecyclerViewAdapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        }
-
-        wordsRecyclerViewAdapter?.submitData(wordList)
     }
 
     private fun handleEmptyScreen(message: String) {
@@ -93,8 +104,12 @@ class AllWordsFragment : BaseFragment<AllWordsFragmentBinding>(AllWordsFragmentB
         binding?.root?.addView(emptyViewBinding.root)
     }
 
-
-    private fun openFilterMenu() {
-        findNavController().navigate(R.id.action_allWordsFragment_to_filterBottomSheet)
+    private fun onFilterChanged(selectedFilter: String) {
+        filterType = toFilterType(selectedFilter)
+        viewModel.startPoint = 0
+        allWordsListView?.setFilterTitle(filterType)
+        allWordsListView?.createNewAdapter()
+        viewModel.getAllWords(filterType)
     }
+
 }
